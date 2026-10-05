@@ -2,21 +2,21 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-A client-side connected-texture compatibility patch for Minecraft **1.21.1 / NeoForge**. It automatically selects Fusion or NeoContinuity for Yuushya materials rendered by LittleTiles.
+A client-side connected-texture compatibility mod for Minecraft **1.21.1 / NeoForge**. It automatically selects Fusion or NeoContinuity for Yuushya materials rendered by LittleTiles.
 
 ## Download and installation
 
-Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) and place it in your client's `mods` folder. Remove older unified versions and the standalone Yuushya LittleTiles CTM / Fusion Compat patches. Keep only one version installed.
+Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) and place it in your client's `mods` folder.
 
-- LittleTiles is the only required mod declared by this patch, with no version restriction. You still need to install LittleTiles' own dependencies.
-- Fusion and NeoContinuity are optional, with no version restrictions. Fusion takes priority when both are installed. If neither is installed, no backend patches are enabled.
+- LittleTiles is the only required mod declared by this mod, with no version restriction. You still need to install LittleTiles' own dependencies.
+- Fusion and NeoContinuity are optional, with no version restrictions. Fusion takes priority when both are installed. If neither is installed, no backend compatibility hooks are enabled.
 - Minecraft 1.21.1 / NeoForge platform requirements remain. Only `yuushya` materials are handled.
 - For Fusion, enable Yuushya's **Yuushya Fusion Combine** resource pack. For NeoContinuity, enable **Yuushya Mcpatcher Feature**. Automatic backend selection does not switch resource packs.
 - Fully restart the game and check the log for `selected backend` / `selected=...`.
 
-## v0.2.5
+## Features and validation
 
-Removes version restrictions for LittleTiles, Fusion and NeoContinuity, and removes this patch's direct required dependency declarations for CreativeCore and Yuushya. Existing rendering fixes and exclusions for the old standalone patches remain.
+Bridges NeoContinuity's connected-texture rendering into LittleTiles' quad clipping pipeline. For Fusion, it refreshes cached texture quads after neighbor changes, includes model faces that are not assigned a culling direction, and fixes neighbor material queries through LittleTiles' simulated world view. Backend selection happens at startup.
 
 Production code compilation, 18 interface checks, 14 backend-selection assertions, 49 Fusion assertions and 6 native Sodium mesh regression cases passed against official LittleTiles pre232 / CreativeCore 2.13.50, NeoContinuity 3.0.0+0.0.1 and Sodium 0.8.13. The development compilation baseline is NeoForge 21.1.233.
 

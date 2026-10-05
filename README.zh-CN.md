@@ -2,21 +2,21 @@
 
 [English](README.md) | **简体中文**
 
-Minecraft **1.21.1 / NeoForge** 客户端连接材质兼容补丁。为 LittleTiles 渲染的方块小镇材质自动选择 Fusion 或 NeoContinuity 后端。
+Minecraft **1.21.1 / NeoForge** 客户端连接材质兼容模组。为 LittleTiles 渲染的方块小镇材质自动选择 Fusion 或 NeoContinuity 后端。
 
 ## 下载与安装
 
-从 [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) 下载 JAR，放入客户端 `mods` 目录。移除旧统一版以及独立的 Yuushya LittleTiles CTM / Fusion Compat 补丁，只保留一个版本。
+从 [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) 下载 JAR，放入客户端 `mods` 目录。
 
-- 本补丁只声明 LittleTiles 为必需模组前置，版本不限；LittleTiles 自身的前置仍需安装。
-- Fusion 和 NeoContinuity 均可选，版本不限。两者同时安装时优先 Fusion；均未安装时不启用后端补丁。
-- Minecraft 1.21.1 / NeoForge 平台要求保留。补丁仅处理 `yuushya` 材质。
+- 本模组只声明 LittleTiles 为必需模组前置，版本不限；LittleTiles 自身的前置仍需安装。
+- Fusion 和 NeoContinuity 均可选，版本不限。两者同时安装时优先 Fusion；均未安装时不启用后端模组。
+- Minecraft 1.21.1 / NeoForge 平台要求保留。模组仅处理 `yuushya` 材质。
 - Fusion 模式启用方块小镇的 Yuushya Fusion Combine 资源包；NeoContinuity 模式启用 Yuushya Mcpatcher Feature。自动后端选择不会自动切换资源包。
 - 完全重启后查看日志 `selected backend` / `selected=...`。
 
-## v0.2.5
+## 功能与验证
 
-取消 LittleTiles、Fusion、NeoContinuity 的版本限制，移除本补丁对 CreativeCore / Yuushya 的直接 required 声明；保留既有修复实现和旧补丁互斥规则。
+将 NeoContinuity 的连接材质渲染接入 LittleTiles 的面裁剪流程。Fusion 模式修复邻居变化后的纹理缓存刷新、补取没有指定剔除方向的模型面，并修复通过 LittleTiles 模拟世界查询邻居材质的问题。后端在启动时自动选择。
 
 针对官方 LittleTiles pre232 / CreativeCore 2.13.50、NeoContinuity 3.0.0+0.0.1 和 Sodium 0.8.13，生产代码编译、18 项接口检查、14 项后端选择断言、49 项 Fusion 断言和 6 组 Sodium 原生网格用例通过。开发编译基线为 NeoForge 21.1.233。
 
