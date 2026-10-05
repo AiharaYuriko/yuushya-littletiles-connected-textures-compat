@@ -6,13 +6,11 @@ Client-side connected-texture compatibility for Minecraft 1.21.1 / NeoForge, wit
 
 The Fusion fixes now apply to materials from any mod. The Yuushya-only namespace filter has been removed from neighbor material lookup, texture-quad cache invalidation and unculled model-face collection. Null-state checks, rendering-thread/simulated-world guards and LittleTiles' loaded-state lookup checks remain. NeoContinuity behavior is unchanged.
 
-Rechiseled materials can now enter these Fusion repair paths. This makes the release available for testing [LittleTiles issue #1355](https://github.com/CreativeMD/LittleTiles/issues/1355); it is not a confirmed fix for that reproduction.
-
 LittleTiles is the only required mod declared by this mod, with no version restriction; its own dependencies still apply. Fusion and NeoContinuity are optional and have no version restrictions.
 
 ### Validation and installation
 
-Compilation, 18 target-interface checks, 14 backend-selection assertions, 49 Fusion assertions and 6 native Sodium mesh cases passed against LittleTiles pre232 / CreativeCore 2.13.50, NeoContinuity 3.0.0+0.0.1 and Sodium 0.8.13. Full game startup, Rechiseled visuals and the performance impact of the broader material scope have not been verified.
+Compilation, 18 target-interface checks, 14 backend-selection assertions, 49 Fusion assertions and 6 native Sodium mesh cases passed against LittleTiles pre232 / CreativeCore 2.13.50, NeoContinuity 3.0.0+0.0.1 and Sodium 0.8.13. Full game startup, in-game visuals and the performance impact of the broader material scope have not been verified.
 
 Place the JAR in the client's `mods` folder and enable the resource packs required by your materials and backend. Fully restart the game. When updating an existing installation, keep only the new version of this mod.
 
@@ -28,13 +26,11 @@ Minecraft 1.21.1 / NeoForge 客户端连接材质兼容模组，自动选择 Fus
 
 Fusion 修复现适用于任意模组的材质。邻居材质查询、纹理面缓存失效和非剔除面补取均移除了 `yuushya` 命名空间限制。空状态检查、渲染线程／模拟世界条件以及 LittleTiles 原有的加载状态查询检查保留。NeoContinuity 的行为不变。
 
-Rechiseled 材质现在可以进入这些 Fusion 修复路径，可用于尝试验证 [LittleTiles issue #1355](https://github.com/CreativeMD/LittleTiles/issues/1355)，但尚未确认解决该复现。
-
 本模组只声明 LittleTiles 为必需模组前置，版本不限；LittleTiles 自身的依赖仍需安装。Fusion 和 NeoContinuity 为可选后端，版本不限。
 
 ### 验证与安装
 
-针对 LittleTiles pre232 / CreativeCore 2.13.50、NeoContinuity 3.0.0+0.0.1 和 Sodium 0.8.13，编译、18 项目标接口检查、14 项后端选择断言、49 项 Fusion 断言和 6 组 Sodium 原生网格用例通过。完整游戏启动、Rechiseled 画面及扩大材质范围后的性能影响尚未验证。
+针对 LittleTiles pre232 / CreativeCore 2.13.50、NeoContinuity 3.0.0+0.0.1 和 Sodium 0.8.13，编译、18 项目标接口检查、14 项后端选择断言、49 项 Fusion 断言和 6 组 Sodium 原生网格用例通过。完整游戏启动、游戏画面及扩大材质范围后的性能影响尚未验证。
 
 将 JAR 放入客户端 `mods` 目录，按材质及后端启用所需资源包，完全重启游戏。已有本模组的实例更新时只保留新版。
 
