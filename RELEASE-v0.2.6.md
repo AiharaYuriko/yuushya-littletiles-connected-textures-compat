@@ -4,7 +4,7 @@ Client-side connected-texture compatibility for Minecraft 1.21.1 / NeoForge, wit
 
 ### v0.2.6
 
-The Fusion fixes now apply to materials from any mod. The Yuushya-only namespace filter has been removed from neighbor material lookup, texture-quad cache invalidation and unculled model-face collection. Null-state checks, rendering-thread/simulated-world guards and LittleTiles' loaded-state lookup checks remain. NeoContinuity behavior is unchanged.
+Both Fusion and NeoContinuity compatibility apply to materials from any mod, with no source-mod namespace or resource-pack restrictions. Fusion provides neighbor material lookup repair, texture-quad cache invalidation and unculled model-face collection. NeoContinuity bridges connected-texture rendering into LittleTiles' quad clipping pipeline.
 
 LittleTiles is the only required mod declared by this mod, with no version restriction; its own dependencies still apply. Fusion and NeoContinuity are optional and have no version restrictions.
 
@@ -24,7 +24,7 @@ Minecraft 1.21.1 / NeoForge 客户端连接材质兼容模组，自动选择 Fus
 
 ### v0.2.6
 
-Fusion 修复现适用于任意模组的材质。邻居材质查询、纹理面缓存失效和非剔除面补取均移除了 `yuushya` 命名空间限制。空状态检查、渲染线程／模拟世界条件以及 LittleTiles 原有的加载状态查询检查保留。NeoContinuity 的行为不变。
+Fusion 和 NeoContinuity 兼容均适用于任意模组的材质，不限制方块所属模组命名空间或材质包来源。Fusion 提供邻居材质查询修复、纹理面缓存刷新和非剔除面补取；NeoContinuity 将连接材质渲染接入 LittleTiles 的面裁剪流程。
 
 本模组只声明 LittleTiles 为必需模组前置，版本不限；LittleTiles 自身的依赖仍需安装。Fusion 和 NeoContinuity 为可选后端，版本不限。
 
