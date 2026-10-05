@@ -34,7 +34,7 @@ foreach ($test in @(
     & (Join-Path $JdkPath 'bin/java.exe') "@$argsFile"
     if ($LASTEXITCODE -ne 0) { throw 'Regression failed.' }
 }
-$jar = Join-Path $output 'yuushya-lt-connected-textures-compat-0.2.5-mc1.21.1.jar'
+$jar = Join-Path $output 'yuushya-lt-connected-textures-compat-0.2.6-mc1.21.1.jar'
 & (Join-Path $JdkPath 'bin/jar.exe') "-J-Djava.io.tmpdir=$runDir" --create --file $jar -C $main . -C (Join-Path $PSScriptRoot 'src/main/resources') .
 if ($LASTEXITCODE -ne 0) { throw 'Packaging failed.' }
 Write-Output "Built: $jar"
