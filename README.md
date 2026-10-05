@@ -1,43 +1,45 @@
 # Yuushya LittleTiles Connected Textures Compat
 
-Minecraft **1.21.1 / NeoForge** 客户端连接材质兼容补丁。为 LittleTiles 渲染的方块小镇材质自动选择 Fusion 或 NeoContinuity 后端。
+**English** | [简体中文](README.zh-CN.md)
 
-## 下载与安装
+A client-side connected-texture compatibility patch for Minecraft **1.21.1 / NeoForge**. It automatically selects Fusion or NeoContinuity for Yuushya materials rendered by LittleTiles.
 
-从 [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) 下载 JAR，放入客户端 `mods` 目录。移除旧统一版以及独立的 Yuushya LittleTiles CTM / Fusion Compat 补丁，只保留一个版本。
+## Download and installation
 
-- 本补丁只声明 LittleTiles 为必需模组前置，版本不限；LittleTiles 自身的前置仍需安装。
-- Fusion 和 NeoContinuity 均可选，版本不限。两者同时安装时优先 Fusion；均未安装时不启用后端补丁。
-- Minecraft 1.21.1 / NeoForge 平台要求保留。补丁仅处理 `yuushya` 材质。
-- Fusion 模式启用方块小镇的 Yuushya Fusion Combine 资源包；NeoContinuity 模式启用 Yuushya Mcpatcher Feature。自动后端选择不会自动切换资源包。
-- 完全重启后查看日志 `selected backend` / `selected=...`。
+Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) and place it in your client's `mods` folder. Remove older unified versions and the standalone Yuushya LittleTiles CTM / Fusion Compat patches. Keep only one version installed.
+
+- LittleTiles is the only required mod declared by this patch, with no version restriction. You still need to install LittleTiles' own dependencies.
+- Fusion and NeoContinuity are optional, with no version restrictions. Fusion takes priority when both are installed. If neither is installed, no backend patches are enabled.
+- Minecraft 1.21.1 / NeoForge platform requirements remain. Only `yuushya` materials are handled.
+- For Fusion, enable Yuushya's **Yuushya Fusion Combine** resource pack. For NeoContinuity, enable **Yuushya Mcpatcher Feature**. Automatic backend selection does not switch resource packs.
+- Fully restart the game and check the log for `selected backend` / `selected=...`.
 
 ## v0.2.5
 
-取消 LittleTiles、Fusion、NeoContinuity 的版本限制，移除本补丁对 CreativeCore / Yuushya 的直接 required 声明；保留既有修复实现和旧补丁互斥规则。
+Removes version restrictions for LittleTiles, Fusion and NeoContinuity, and removes this patch's direct required dependency declarations for CreativeCore and Yuushya. Existing rendering fixes and exclusions for the old standalone patches remain.
 
-针对官方 LittleTiles pre232 / CreativeCore 2.13.50、NeoContinuity 3.0.0+0.0.1 和 Sodium 0.8.13，生产代码编译、18 项接口检查、14 项后端选择断言、49 项 Fusion 断言和 6 组 Sodium 原生网格用例通过。开发编译基线为 NeoForge 21.1.233。
+Production code compilation, 18 interface checks, 14 backend-selection assertions, 49 Fusion assertions and 6 native Sodium mesh regression cases passed against official LittleTiles pre232 / CreativeCore 2.13.50, NeoContinuity 3.0.0+0.0.1 and Sodium 0.8.13. The development compilation baseline is NeoForge 21.1.233.
 
-这是实验性预发布版本。无版本加载限制不代表所有版本已验证；尚未完成完整游戏启动、Mixin 注入、画面或性能验收。尤其需要检查跨容器连接、邻居编辑刷新、透明/发光层及动画结构过渡。
+This is an experimental prerelease. Unrestricted dependency versions do not mean all versions have been tested. Full game startup, Mixin injection, visual behavior and performance have not been validated. Cross-container connections, neighbor-edit refreshes, translucent/emissive layers and animated structure transitions especially need in-game testing.
 
-## 构建
+## Building
 
-需要 JDK 21。独立 Gradle 工程提供编译依赖配置：
+Requires JDK 21. The standalone Gradle project provides compilation dependency configuration:
 
 ```powershell
 .\gradlew.bat build
 ```
 
-默认使用 pre232 / Core 2.13.50 作为编译基线，不将这些依赖打入 JAR。可通过 `-PcompatCreativeCoreJar=... -PcompatLittleTilesJar=...` 提供实际目标 JAR。Gradle 独立构建入口尚未在本次发布运行；发布文件使用已缓存开发类路径和 javac 生成。
+The default compilation baseline is LittleTiles pre232 / CreativeCore 2.13.50; dependencies are not bundled in the output JAR. Use `-PcompatCreativeCoreJar=... -PcompatLittleTilesJar=...` to supply actual target JARs. The standalone Gradle entry point was not run for this release; the published artifact was produced using a cached development classpath and javac.
 
-已验证的离线构建入口：
+Verified offline build entry point:
 
 ```powershell
 .\build-offline.ps1 -ClasspathFile 'development-classpath.txt' -JdkPath 'C:\path\to\jdk-21'
 ```
 
-类路径文件每行一个依赖 JAR 绝对路径，需要包含 NeoForge/Minecraft 开发类、LittleTiles、CreativeCore、NeoContinuity、Sodium **内层实现 JAR**及其 FRAPI、Mixin、ASM 和其他开发依赖。可先运行 `gradlew.bat exportClasspath` 获取基础开发类路径，再补入 NeoContinuity/Sodium 内层 JAR；勿把平台原生库加入类路径。离线入口分别编译三组测试，测试 RenderType 替身及测试类不进入交付 JAR。
+The classpath file must contain one absolute dependency JAR path per line, including NeoForge/Minecraft development classes, LittleTiles, CreativeCore, NeoContinuity, Sodium's **inner implementation JAR** and its FRAPI, Mixin, ASM and other development dependencies. Run `gradlew.bat exportClasspath` to obtain the base development classpath, then add the NeoContinuity/Sodium inner JARs. Exclude platform native libraries. The offline entry point compiles the three regression suites separately; test classes and RenderType stubs are not included in the release JAR.
 
-## 源码与许可
+## Source and license
 
-本仓库包含统一入口及 CTM/Fusion 桥接实现，未包含 Minecraft、LittleTiles、CreativeCore、Fusion、NeoContinuity 或 Sodium 的源码/发行依赖。许可证为 LGPL-3.0-only，见 `LICENSE` 和 `COPYING`。
+This repository contains the unified entry point and CTM/Fusion bridge implementations. It does not contain the source or distributed dependencies of Minecraft, LittleTiles, CreativeCore, Fusion, NeoContinuity or Sodium. Licensed under LGPL-3.0-only; see [LICENSE](LICENSE) and [COPYING](COPYING).

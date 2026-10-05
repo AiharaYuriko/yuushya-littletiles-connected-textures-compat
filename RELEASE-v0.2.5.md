@@ -1,3 +1,28 @@
+## English
+
+An experimental client-side connected-texture compatibility patch for Minecraft 1.21.1 / NeoForge.
+
+### Changes
+
+- LittleTiles is the only required mod declared by this patch, with no version restriction.
+- Removes this patch's direct required dependency declarations for CreativeCore and Yuushya. LittleTiles' own dependency requirements still apply.
+- Fusion / NeoContinuity remain optional backends, with no version restrictions. Fusion takes priority when both are installed.
+- Keeps the Minecraft 1.21.1 / NeoForge platform requirements, existing rendering implementation and exclusions for the old standalone patches.
+
+### Validation
+
+Recompiled against official LittleTiles pre232, CreativeCore 2.13.50, NeoContinuity 3.0.0+0.0.1 and Sodium 0.8.13. All 18 interface checks, 14 backend-selection assertions, 49 Fusion assertions and 6 native Sodium mesh regression cases passed. Full client startup, Mixin injection and in-game visuals have not been validated. Removing version restrictions does not mean every version has been tested.
+
+### Installation
+
+Remove older unified versions and standalone CTM/Fusion compatibility patches, then place the attached JAR in the client's `mods` folder. Enable the Yuushya resource pack for your selected backend and fully restart the game.
+
+SHA-256: `E131EA794066B468FF8985AEFA0961687C8677E6E171AD70DAAA45AF710A19FA`.
+
+---
+
+## 简体中文
+
 Minecraft 1.21.1 / NeoForge 客户端实验性连接材质兼容补丁。
 
 ### 本次调整
