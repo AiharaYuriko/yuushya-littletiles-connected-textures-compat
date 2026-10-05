@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.yuushya.compat.fusion.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "com.yuushya.compat.connected.AutoBackendMixinPlugin",
+  "client": ["RenderingThreadMixin", "RenderBoxMixin", "BERenderManagerMixin", "LevelAccessorFakeAccessor", "BlockTileMixin"],
+  "injectors": {"defaultRequire": 1}
+}

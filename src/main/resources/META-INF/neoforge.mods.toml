@@ -1,0 +1,67 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="LGPL-3.0-only"
+
+[[mods]]
+    modId="yuushya_lt_connected_textures_compat"
+    version="0.2.5-experimental"
+    displayName="Yuushya LittleTiles Connected Textures Compat"
+    displayURL=""
+    authors="Yuushya compatibility contributors"
+    description='''Automatically selects Fusion or NeoContinuity compatibility for Yuushya materials rendered by LittleTiles.'''
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.1]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+   modId="littletiles"
+   type="required"
+   ordering="AFTER"
+   side="CLIENT"
+   versionRange="[0,)"
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+   modId="fusion"
+   type="optional"
+   ordering="AFTER"
+   side="CLIENT"
+   versionRange="[0,)"
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+   modId="continuity"
+   type="optional"
+   ordering="AFTER"
+   side="CLIENT"
+   versionRange="[0,)"
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+   modId="yuushya_lt_ctm_compat"
+   type="incompatible"
+   ordering="NONE"
+   side="CLIENT"
+   versionRange="[0,)"
+
+[[dependencies.yuushya_lt_connected_textures_compat]]
+   modId="yuushya_lt_fusion_compat"
+   type="incompatible"
+   ordering="NONE"
+   side="CLIENT"
+   versionRange="[0,)"
+
+[[mixins]]
+   config="yuushya_lt_connected_ctm.mixins.json"
+
+[[mixins]]
+   config="yuushya_lt_connected_fusion.mixins.json"
+

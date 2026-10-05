@@ -1,0 +1,33 @@
+plugins {
+    id 'net.neoforged.gradle.userdev' version '7.0.+'
+}
+group = 'com.yuushya.compat'
+version = '0.2.5-experimental'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+repositories {
+    maven { url = 'https://api.modrinth.com/maven' }
+    maven { url = 'https://maven.su5ed.dev/releases' }
+}
+dependencies {
+    implementation 'net.neoforged:neoforge:21.1.233'
+    if (project.hasProperty('compatCreativeCoreJar') && project.hasProperty('compatLittleTilesJar')) {
+        compileOnly files(project.property('compatCreativeCoreJar'), project.property('compatLittleTilesJar'))
+    } else {
+        compileOnly('maven.modrinth:creativecore:v1GIKf4i') { transitive = false }
+        compileOnly('maven.modrinth:littletiles:7ZLyK1m0') { transitive = false }
+    }
+    compileOnly 'org.sinytra.forgified-fabric-api:fabric-renderer-api-v1:3.4.0+acb05a3919'
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.add('-proc:none')
+}
+tasks.named('jar') {
+    archiveFileName = 'yuushya-lt-connected-textures-compat-0.2.5-mc1.21.1.jar'
+}
+tasks.register('exportClasspath') {
+    doLast {
+        file('build').mkdirs()
+        file('build/development-classpath.txt').text = sourceSets.main.compileClasspath.files.collect { it.absolutePath }.join('\n') + '\n'
+    }
+}
