@@ -16,12 +16,6 @@ Missing axial faces of supported pillar/beam models can fall back to the matchin
 
 0.2.17 disables repeated diagnostics by default, returns early for a fully covering box, and reduces allocation and repeated sorting in boundary coverage. Enable diagnostic logging with `-Dyuushya.lt.diagnostics=true`.
 
-## Validation
-
-The published JAR passed offline compilation and 148 backend, 8 quad, 28 material-state, 45 render-view/boundary, 26 installed-interface and 49 Fusion assertions, plus 6 native Sodium emitter cases. An independent coverage oracle passed 40,000 checks. The prior 0.2.16 fixes were reported effective by the user; 0.2.17 still needs in-game regression testing.
-
-A synthetic 256-strip benchmark improved from about 104 to 2.6 microseconds per call and 39 to 10 KB allocated. Some small regular grids became slightly slower. These are algorithm measurements, not game FPS results. Full startup, Mixin behavior and all resource-pack combinations are not covered by offline checks. See [VALIDATION.md](VALIDATION.md), [changelog.txt](changelog.txt), and [benchmarks](benchmarks).
-
 ## Building
 
 Requires JDK 21. The standalone Gradle compilation baseline is NeoForge 21.1.233 and LittleTiles pre232 / CreativeCore 2.13.50. Use `-PcompatCreativeCoreJar=... -PcompatLittleTilesJar=...` to supply target JARs.
