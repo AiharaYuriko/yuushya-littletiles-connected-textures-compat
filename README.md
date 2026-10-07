@@ -2,44 +2,42 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-A client-side connected-texture compatibility mod for Minecraft **1.21.1 / NeoForge**. It automatically selects Fusion or NeoContinuity for materials rendered by LittleTiles, without filtering by the source mod's namespace.
+Client-side connected-texture compatibility for Minecraft **1.21.1 / NeoForge**, version **0.2.17-experimental**.
 
-## Download and installation
+Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases), replace the previous compatibility JAR, and restart the client. Do not install the old separate CTM/Fusion compatibility mods alongside this unified mod.
 
-Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) and place it in your client's `mods` folder.
+LittleTiles is required along with its own dependencies. Fusion and NeoContinuity are optional; Fusion takes priority when both are installed. Without either backend, compatibility hooks are disabled. Enable the resource packs your materials need: Yuushya Fusion Combine for Fusion or Yuushya Mcpatcher Feature for NeoContinuity. Automatic backend selection does not switch packs. Dependency versions are unrestricted in metadata, which does not imply compatibility with every version.
 
-- LittleTiles is the only required mod declared by this mod, with no version restriction. You still need to install LittleTiles' own dependencies.
-- Fusion and NeoContinuity are optional, with no version restrictions. Fusion takes priority when both are installed. If neither is installed, no backend compatibility hooks are enabled.
-- Requires Minecraft 1.21.1 / NeoForge. Both Fusion and NeoContinuity compatibility have no source-mod namespace or resource-pack restrictions.
-- Enable the resource packs required by your materials and selected backend. For Yuushya materials, use **Yuushya Fusion Combine** with Fusion or **Yuushya Mcpatcher Feature** with NeoContinuity. Automatic backend selection does not switch resource packs.
-- Fully restart the game and check the log for `selected backend` / `selected=...`.
+## Current behavior
 
-## Features and validation
+Both backends handle connected textures without source-mod namespace restrictions. Yuushya pillar/beam model selection is a separate adaptation limited to supported Yuushya materials: matching material presence at adjacent block positions determines connection, with beam orientation checks. Rendering uses temporary states without changing saved blocks or tiles. Neighbor updates and loading invalidate relevant rendering caches.
 
-Bridges NeoContinuity's connected-texture rendering into LittleTiles' quad clipping pipeline. For Fusion, it refreshes cached texture quads after neighbor changes, includes model faces that are not assigned a culling direction, and fixes neighbor material queries through LittleTiles' simulated world view. Backend selection happens at startup.
+Missing axial faces of supported pillar/beam models can fall back to the matching `none` model. Before LittleTiles hides an ordinary neighbor's face, actual boundary rectangle coverage must prove the face is fully covered. Incomplete or unproven coverage keeps the ordinary face visible.
 
-Both backends process materials without filtering by their source mod or resource pack. Production code compilation, 18 interface checks, 14 backend-selection assertions, 49 Fusion assertions and 6 native Sodium mesh regression cases passed against official LittleTiles pre232 / CreativeCore 2.13.50, NeoContinuity 3.0.0+0.0.1 and Sodium 0.8.13. The development compilation baseline is NeoForge 21.1.233.
+0.2.17 disables repeated diagnostics by default, returns early for a fully covering box, and reduces allocation and repeated sorting in boundary coverage. Enable diagnostic logging with `-Dyuushya.lt.diagnostics=true`.
 
-This is an experimental prerelease. Unrestricted dependency versions do not mean all versions have been tested. Full game startup, Mixin injection, visual behavior and performance have not been validated. Cross-container connections, neighbor-edit refreshes, translucent/emissive layers and animated structure transitions especially need in-game testing.
+## Validation
+
+The published JAR passed offline compilation and 148 backend, 8 quad, 28 material-state, 45 render-view/boundary, 26 installed-interface and 49 Fusion assertions, plus 6 native Sodium emitter cases. An independent coverage oracle passed 40,000 checks. The prior 0.2.16 fixes were reported effective by the user; 0.2.17 still needs in-game regression testing.
+
+A synthetic 256-strip benchmark improved from about 104 to 2.6 microseconds per call and 39 to 10 KB allocated. Some small regular grids became slightly slower. These are algorithm measurements, not game FPS results. Full startup, Mixin behavior and all resource-pack combinations are not covered by offline checks. See [VALIDATION.md](VALIDATION.md), [changelog.txt](changelog.txt), and [benchmarks](benchmarks).
 
 ## Building
 
-Requires JDK 21. The standalone Gradle project provides compilation dependency configuration:
+Requires JDK 21. The standalone Gradle compilation baseline is NeoForge 21.1.233 and LittleTiles pre232 / CreativeCore 2.13.50. Use `-PcompatCreativeCoreJar=... -PcompatLittleTilesJar=...` to supply target JARs.
 
 ```powershell
 .\gradlew.bat build
 ```
 
-The default compilation baseline is LittleTiles pre232 / CreativeCore 2.13.50; dependencies are not bundled in the output JAR. Use `-PcompatCreativeCoreJar=... -PcompatLittleTilesJar=...` to supply actual target JARs. The standalone Gradle entry point was not run for this release; the published artifact was produced using a cached development classpath and javac.
-
-Verified offline build entry point:
+The published artifact uses the verified offline compilation path rather than the standalone Gradle command:
 
 ```powershell
 .\build-offline.ps1 -ClasspathFile 'development-classpath.txt' -JdkPath 'C:\path\to\jdk-21'
 ```
 
-The classpath file must contain one absolute dependency JAR path per line, including NeoForge/Minecraft development classes, LittleTiles, CreativeCore, NeoContinuity, Sodium's **inner implementation JAR** and its FRAPI, Mixin, ASM and other development dependencies. Run `gradlew.bat exportClasspath` to obtain the base development classpath, then add the NeoContinuity/Sodium inner JARs. Exclude platform native libraries. The offline entry point compiles the three regression suites separately; test classes and RenderType stubs are not included in the release JAR.
+The classpath file contains one absolute dependency JAR path per line, including NeoForge/Minecraft development classes, LittleTiles, CreativeCore, NeoContinuity, Sodium's inner implementation JAR and FRAPI, Mixin, ASM and supporting development dependencies. Exclude platform native libraries. `gradlew.bat exportClasspath` provides the base classpath; add the required NeoContinuity/Sodium inner JARs. Tests compile separately and are excluded from the release JAR. The installed-target ABI audit additionally requires explicit target JAR arguments.
 
-## Source and license
+## License
 
-This repository contains the unified entry point and CTM/Fusion bridge implementations. It does not contain the source or distributed dependencies of Minecraft, LittleTiles, CreativeCore, Fusion, NeoContinuity or Sodium. Licensed under LGPL-3.0-only; see [LICENSE](LICENSE) and [COPYING](COPYING).
+LGPL-3.0-only; see [LICENSE](LICENSE) and [COPYING](COPYING). Third-party mod sources and dependency JARs are not bundled.

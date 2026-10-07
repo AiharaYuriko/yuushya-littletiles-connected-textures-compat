@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -28,13 +29,20 @@ public final class UnculledQuadCache {
 
     public List<BakedQuad> append(BakedModel model, BlockState state, Direction side, ModelData data,
             RenderType layer, List<BakedQuad> directional) {
+        return append(side, layer, directional,
+            () -> model.getQuads(state, null, RandomSource.create(seed), data, layer));
+    }
+
+    /** Allows the combined backend to process unculled faces through CTM before grouping. */
+    public List<BakedQuad> append(Direction side, RenderType layer, List<BakedQuad> directional,
+            Supplier<List<BakedQuad>> unculled) {
         if (side == null)
             return directional;
         List<List<BakedQuad>> faces = layers.get(layer);
         if (faces == null) {
             // Separate position-seeded RNG: do not consume the caller's random stream.
             // Custom models consuming RNG in getRenderTypes need in-game validation.
-            faces = group(model.getQuads(state, null, RandomSource.create(seed), data, layer));
+            faces = group(unculled.get());
             layers.put(layer, faces);
         }
         List<BakedQuad> additional = faces.get(side.ordinal());

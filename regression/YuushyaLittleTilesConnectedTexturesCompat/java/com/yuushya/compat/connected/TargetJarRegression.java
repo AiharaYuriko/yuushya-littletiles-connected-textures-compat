@@ -5,6 +5,9 @@ import java.util.zip.ZipFile;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 
 /** Reads installed bytes directly; does not confuse workspace source with the target ABI. */
 public final class TargetJarRegression {
@@ -27,6 +30,7 @@ public final class TargetJarRegression {
             field(fake, "state", "Lnet/minecraft/world/level/block/state/BlockState;");
             ClassNode manager = read(tiles, "team/creative/littletiles/client/render/block/BERenderManager");
             method(manager, "beforeBuilding", "(Lteam/creative/littletiles/client/render/cache/build/RenderingBlockContext;)V");
+            method(manager, "getRenderingBoxes", "(Lteam/creative/littletiles/client/render/cache/build/RenderingBlockContext;)Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;");
             field(manager, "neighbourChanged", "Z");
             field(manager, "boxCache", "Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;");
             calls(read(tiles, "team/creative/littletiles/client/render/cache/build/RenderingThread"), "run", model, "getModelData",
@@ -37,6 +41,31 @@ public final class TargetJarRegression {
             method(tile, "loadBE", load);
             check(tile.methods.stream().anyMatch(m -> m.name.equals("loadBE") && m.desc.equals(load) && (m.access & 8) != 0), "loadBE is static");
             calls(tile, "getAppearance", block, "loadBE", load, 1);
+            boolean nativeLookup = NativeNeighborLookup.isFixed(tile);
+            System.out.println("LittleTiles native neighbor lookup detected: " + nativeLookup);
+            if (args.length > 3)
+                check(nativeLookup == Boolean.parseBoolean(args[3]), "expected native neighbor capability: " + args[3]);
+            check(!NativeNeighborLookup.isFixed(null), "missing bytecode retains legacy redirect");
+            check(!NativeNeighborLookup.isFixed(new ClassNode()), "unknown bytecode retains legacy redirect");
+            if (nativeLookup) {
+                var client = tile.methods.stream().filter(m -> m.name.equals("tryGetClient")).findFirst().orElseThrow();
+                var cast = new TypeInsnNode(Opcodes.CHECKCAST, "net/minecraft/world/level/Level");
+                client.instructions.insert(cast);
+                check(!NativeNeighborLookup.isFixed(tile), "a Level cast prevents native classification");
+                client.instructions.remove(cast);
+                FieldInsnNode checkField = null;
+                for (var instruction : client.instructions)
+                    if (instruction instanceof FieldInsnNode field && field.name.equals("CHECK")) checkField = field;
+                if (checkField == null) throw new AssertionError("native lookup missing CHECK");
+                checkField.name = "IMMEDIATE";
+                check(!NativeNeighborLookup.isFixed(tile), "entity creation must stay CHECK-only");
+                checkField.name = "CHECK";
+                String descriptor = client.desc;
+                client.desc = descriptor.replace("LevelAccessor;", "BlockGetter;");
+                check(!NativeNeighborLookup.isFixed(tile), "old helper signature retains redirect");
+                client.desc = descriptor;
+                check(NativeNeighborLookup.isFixed(tile), "restored real pre233 bytecode is recognized");
+            }
             String mesh = "net/fabricmc/fabric/api/renderer/v1/mesh/Mesh";
             String output = "(Lnet/fabricmc/fabric/api/renderer/v1/mesh/QuadEmitter;)V";
             ClassNode emissive = read(continuity, "me/pepperbell/continuity/client/model/EmissiveBakedModel");

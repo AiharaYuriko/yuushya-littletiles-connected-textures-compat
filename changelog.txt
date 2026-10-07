@@ -1,0 +1,60 @@
+0.2.17-experimental
+Disable repeated diagnostic formatting/locking by default; enable with -Dyuushya.lt.diagnostics=true.
+Short-circuit proven single-box boundary coverage and use an adaptive-axis, single-sort coverage scan with fewer allocations.
+40,000 independent raster-oracle checks and existing regressions pass. Synthetic strip workloads improve substantially; small regular grids trade slightly higher CPU time for lower allocation. No live FPS claim.
+
+0.2.16-experimental
+Complete missing axial faces in supported simple column/beam models before ordinary terrain rendering, using the same material's unconnected end face.
+Keep existing directional/unculled faces and connected side textures; retain the 0.2.15 neighbour coverage protection.
+Verified installed marble/concrete model differences and offline ABI checks; live validation pending.
+
+0.2.15-experimental
+Protect ordinary full-block faces next to cut LT geometry by verifying true hidesNeighborFace results against actual boundary rectangle coverage.
+Keep faces for incomplete or unproven coverage, retain hiding for fully covered boundaries, and disable the unsuccessful 0.2.14 LT-face revalidation hook.
+Eight geometric coverage cases and installed ABI checks pass; live validation remains pending.
+
+0.2.14-experimental
+Revalidate serialized fully covered LT face flags against current geometry on fresh render-box builds, across all materials.
+Retain LT's actual occlusion rules and separate neighbour memoization per tile; log changed decisions with a fixed limit.
+Offline cache-behaviour and ABI checks pass. User-scene validation and rebuild performance measurements remain pending.
+
+0.2.13-experimental
+Restore missing axial LT cut faces from the same material's unconnected model, only when connected-model clipping returned no quads.
+Keep connected side textures and existing geometry; pass fallback through the normal backend and clipping path with independent model data.
+Verified installed marble model omissions and offline ABI checks; in-game visual validation pending.
+
+0.2.12-experimental
+Refresh supported LT and full-block boundaries after NBT loading, level attachment and tile updates; coalesce requests at the end of the client tick.
+Invalidate LT's independent rendering cache as well as terrain meshes.
+Add bounded material-decision diagnostics. User-reported clipping-dependent appearance differences remain under investigation; no visual fix claim.
+
+0.2.11-experimental
+Choose one appearance per block position and material before clipping, instead of selecting states independently from micro-box end coverage.
+Use matching material presence for both LT and full-block neighbors; preserve beam facing and unknown-neighbor fallback.
+Remove full-face coverage indexing. Keep existing resources, UV generation and LT clipping. Offline checks pass; visual validation remains pending.
+
+0.2.10-experimental
+Adapt the full-block side of mixed LT column/beam boundaries in Vanilla and Sodium 0.8.13 render views before model selection.
+Reuse full end-face contact rules, invalidate per-view caches, and request adjacent terrain redraws after LT edits.
+No server or saved-state changes. Offline checks pass; mixed-boundary in-game verification remains pending.
+
+0.2.9-experimental
+Resolve render-only connection states for Yuushya chiseled marble columns and concrete columns/beams A/B before model selection.
+Require full rectangular end-face contact, preserve gaps and beam facing, and invalidate changed render quads without changing saved tile states.
+Retain dual backends and pre233 native lookup. Geometry/orientation and offline regressions pass; in-game validation remains pending.
+
+0.2.8-experimental
+Enable Fusion and NeoContinuity independently when installed; use BOTH when both are present.
+Use one combined RenderBox redirect to avoid conflicts, keeping CTM-processed unculled faces and Fusion fallback.
+Keep pre233 native neighbor detection. Offline checks pass; full dual-backend visual validation remains pending.
+
+0.2.7-experimental
+Recognize the LittleTiles pre233 native neighbor lookup during Mixin initialization.
+Skip the legacy Fusion neighbor redirect and its accessor when the native fix is recognized; retain the fallback on older or unknown targets.
+Keep quad invalidation, unculled faces, unrestricted materials and the NeoContinuity bridge.
+Validated against pre233 / CreativeCore 2.13.50, with a pre232 bytecode fallback check. No in-game visual or performance claim.
+
+0.2.0-experimental
+Combine the Fusion and NeoContinuity fixes in one client mod.
+Select Fusion first when both backends are installed, with no per-render backend branch.
+

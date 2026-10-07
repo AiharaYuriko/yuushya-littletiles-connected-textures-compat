@@ -23,18 +23,20 @@ function Compile([string]$sourceDir, [string]$destination, [string]$cp) {
 $main = Join-Path $runDir 'main'
 Compile (Join-Path $PSScriptRoot 'src/main/java') $main $classpath
 foreach ($test in @(
-    @('YuushyaLittleTilesConnectedTexturesCompat','com.yuushya.compat.connected.ModeSelectionRegression'),
+    @('YuushyaLittleTilesConnectedTexturesCompat','com.yuushya.compat.connected.ModeSelectionRegression','com.yuushya.compat.connected.CombinedQuadRegression','com.yuushya.compat.connected.MaterialStateRegression','com.yuushya.compat.connected.RenderViewRegression'),
     @('YuushyaLittleTilesCtmCompat','com.yuushya.compat.ctm.NativeEmitterRegression'),
     @('YuushyaLittleTilesFusionCompat','com.yuushya.compat.fusion.FusionCompatRegression')
 )) {
     $testOutput = Join-Path $runDir $test[0]
     Compile (Join-Path $PSScriptRoot ('regression/' + $test[0] + '/java')) $testOutput ($main + ';' + $classpath)
     $argsFile = $testOutput + '.java.args'
-    [IO.File]::WriteAllLines($argsFile, @('-classpath',('"' + ($testOutput + ';' + $main + ';' + $classpath).Replace('\','/') + '"'),$test[1]))
+    foreach ($testClass in $test[1..($test.Count - 1)]) {
+    [IO.File]::WriteAllLines($argsFile, @('-classpath',('"' + ($testOutput + ';' + $main + ';' + $classpath).Replace('\','/') + '"'),$testClass))
     & (Join-Path $JdkPath 'bin/java.exe') "@$argsFile"
     if ($LASTEXITCODE -ne 0) { throw 'Regression failed.' }
+    }
 }
-$jar = Join-Path $output 'yuushya-lt-connected-textures-compat-0.2.6-mc1.21.1.jar'
+$jar = Join-Path $output 'yuushya-lt-connected-textures-compat-0.2.17-mc1.21.1.jar'
 & (Join-Path $JdkPath 'bin/jar.exe') "-J-Djava.io.tmpdir=$runDir" --create --file $jar -C $main . -C (Join-Path $PSScriptRoot 'src/main/resources') .
 if ($LASTEXITCODE -ne 0) { throw 'Packaging failed.' }
 Write-Output "Built: $jar"

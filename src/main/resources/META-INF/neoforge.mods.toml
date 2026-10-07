@@ -4,7 +4,7 @@ license="LGPL-3.0-only"
 
 [[mods]]
     modId="yuushya_lt_connected_textures_compat"
-    version="0.2.6-experimental"
+    version="0.2.17-experimental"
     displayName="Yuushya LittleTiles Connected Textures Compat"
     displayURL=""
     authors="Yuushya compatibility contributors"
@@ -64,4 +64,7 @@ license="LGPL-3.0-only"
 
 [[mixins]]
    config="yuushya_lt_connected_fusion.mixins.json"
+
+[[mixins]]
+   config="yuushya_lt_connected_combined.mixins.json"
 
