@@ -4,9 +4,9 @@
 
 Minecraft **1.21.1 / NeoForge** 客户端连接纹理兼容补丁，当前版本 **0.2.17-experimental**。
 
-从 [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) 下载 JAR，替换旧统一补丁后重启客户端。不要同时安装旧的独立 CTM/Fusion 兼容补丁。
+从 [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases) 下载 JAR，放入客户端的 `mods` 文件夹后重启。更新时替换上一版本。
 
-需要 LittleTiles 及其自身依赖。Fusion 和 NeoContinuity 可选，同时安装时优先 Fusion，两者均未安装时不启用兼容挂点。按材料启用对应资源包：Fusion 使用 Yuushya Fusion Combine，NeoContinuity 使用 Yuushya Mcpatcher Feature。自动选择后端不会自动切换资源包。元数据不限制依赖版本，并不代表所有版本都已验证。
+需要 LittleTiles 及其自身依赖。Fusion 和 NeoContinuity 可选。同时安装时进入 `BOTH` 模式，两个后端同时启用，由共用的取面桥接协调渲染挂点；只安装一个时启用对应后端，两者均未安装时不启用兼容挂点。按材料启用对应资源包：Fusion 使用 Yuushya Fusion Combine，NeoContinuity 使用 Yuushya Mcpatcher Feature。后端检测不会自动切换资源包。元数据不限制依赖版本，并不代表所有版本都已验证。
 
 ## 当前功能
 

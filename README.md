@@ -4,9 +4,9 @@
 
 Client-side connected-texture compatibility for Minecraft **1.21.1 / NeoForge**, version **0.2.17-experimental**.
 
-Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases), replace the previous compatibility JAR, and restart the client. Do not install the old separate CTM/Fusion compatibility mods alongside this unified mod.
+Download the JAR from [GitHub Releases](https://github.com/AiharaYuriko/yuushya-littletiles-connected-textures-compat/releases), place it in the client's `mods` folder, and restart the client. When updating, replace the previous version.
 
-LittleTiles is required along with its own dependencies. Fusion and NeoContinuity are optional; Fusion takes priority when both are installed. Without either backend, compatibility hooks are disabled. Enable the resource packs your materials need: Yuushya Fusion Combine for Fusion or Yuushya Mcpatcher Feature for NeoContinuity. Automatic backend selection does not switch packs. Dependency versions are unrestricted in metadata, which does not imply compatibility with every version.
+LittleTiles is required along with its own dependencies. Fusion and NeoContinuity are optional. When both are installed, both backends are enabled in `BOTH` mode; a shared quad bridge coordinates their rendering hooks. When only one is installed, that backend is enabled. Without either backend, compatibility hooks are disabled. Enable the resource packs your materials need: Yuushya Fusion Combine for Fusion or Yuushya Mcpatcher Feature for NeoContinuity. Backend detection does not switch packs. Dependency versions are unrestricted in metadata, which does not imply compatibility with every version.
 
 ## Current behavior
 
